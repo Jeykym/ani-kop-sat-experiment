@@ -1,0 +1,55 @@
+# --- .NET build output ---
+bin/
+obj/
+/packages/
+*.user
+*.suo
+*.nupkg
+TestResults/
+
+# --- JetBrains Rider ---
+.idea/
+*.iml
+riderModule.iml
+/_ReSharper.Caches/
+*.DotSettings.user
+
+# --- OS ---
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# --- Experiment: inputs (downloaded from course pages, not ours) ---
+data/
+*.cnf
+uf*-*/
+*.zip
+*.tar.gz
+*.tgz
+
+# --- Experiment: external course binaries (gsat2) ---
+tools/
+gsat2*
+*.exe
+
+# --- Experiment: raw outputs (large, regenerable from code + seeds) ---
+results/raw/
+*.dat
+*.log
+
+# --- Analysis (Python / Jupyter, if used) ---
+.venv/
+venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# --- Report build artifacts (LaTeX) ---
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.out
+*.synctex.gz
+*.toc

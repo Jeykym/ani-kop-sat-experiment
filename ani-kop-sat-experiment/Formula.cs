@@ -29,4 +29,30 @@ public sealed class Formula
         NumClauses = numClauses;
         Clauses = Array.AsReadOnly(copy);
     }
+
+    public List<IReadOnlyList<int>> GetUnsatisfiedClauses(bool[] assignment)
+    {
+        var unsatisfiedClauses = new List<IReadOnlyList<int>>();
+        foreach (var clause in Clauses)
+        {
+            var isClauseSatisfied = false;
+            foreach (var literal in clause)
+            {
+                var isLiteralTrue = literal > 0 ? assignment[literal] : !assignment[-literal];
+                if (isLiteralTrue)
+                {
+                    isClauseSatisfied = true;
+                    break;
+                }
+            }
+
+            if (!isClauseSatisfied)
+                unsatisfiedClauses.Add(clause);
+        }
+        return unsatisfiedClauses;
+    }
+
+    // number of unsatisfied clauses that contain the variable
+    public int CountUnsatisfiedClauses(bool[] assignment, int variable) =>
+        GetUnsatisfiedClauses(assignment).Count(clause => clause.Any(literal => Math.Abs(literal) == variable));
 }

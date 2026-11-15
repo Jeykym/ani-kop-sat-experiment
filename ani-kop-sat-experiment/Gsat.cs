@@ -26,7 +26,7 @@ public static class Gsat
 
             for (var flipNumber = 0; flipNumber < options.MaxFlips; flipNumber++)
             {
-                var unsatisfiedClauses = GetUnsatisfiedClauses(formula, assignment);
+                var unsatisfiedClauses = formula.GetUnsatisfiedClauses(assignment);
                 if (unsatisfiedClauses.Count == 0)
                 {
                     return new GsatResult(assignment, tryNumber, totalFlips);
@@ -50,7 +50,7 @@ public static class Gsat
                     {
                         assignment[variable] = !assignment[variable];
 
-                        var unsatisfiedAfterFlip = GetUnsatisfiedClauses(formula, assignment).Count;
+                        var unsatisfiedAfterFlip = formula.GetUnsatisfiedClauses(assignment).Count;
 
                         assignment[variable] = !assignment[variable];
 
@@ -74,34 +74,12 @@ public static class Gsat
             }
 
             // the last flip of this try may have solved it
-            if (GetUnsatisfiedClauses(formula, assignment).Count == 0)
+            if (formula.GetUnsatisfiedClauses(assignment).Count == 0)
             {
                 return new GsatResult(assignment, tryNumber, totalFlips);
             }
         }
 
         return new GsatResult(null, options.MaxTries, totalFlips);
-    }
-
-    public static List<IReadOnlyList<int>> GetUnsatisfiedClauses(Formula formula, bool[] assignment)
-    {
-        var unsatisfiedClauses = new List<IReadOnlyList<int>>();
-        foreach (var clause in formula.Clauses)
-        {
-            var isClauseSatisfied = false;
-            foreach (var literal in clause)
-            {
-                var isLiteralTrue = literal > 0 ? assignment[literal] : !assignment[-literal];
-                if (isLiteralTrue)
-                {
-                    isClauseSatisfied = true;
-                    break;
-                }
-            }
-
-            if (!isClauseSatisfied)
-                unsatisfiedClauses.Add(clause);
-        }
-        return unsatisfiedClauses;
     }
 }
